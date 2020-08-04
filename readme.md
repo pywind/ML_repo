@@ -13,7 +13,7 @@
 
 1. One variable
 
-`Hypothesis`: \\[ h_{\theta}(x) = \theta_0 + \theta_1x \\]
+`Hypothesis`: \\( h_{\theta}(x) = \theta_0 + \theta_1x \\)
 
 `Cost function`:
 
