@@ -13,7 +13,7 @@
 
 1. One variable
 
-`Hypothesis`: $h_{\theta}(x) = \theta_0 + \theta_1x$
+`Hypothesis`: \(h_{\theta}(x) = \theta_0 + \theta_1x\)
 
 `Cost function`:
 
@@ -42,6 +42,7 @@ $\theta_j = \theta_j - \alpha\frac{\partial }{\partial \theta_j}J(\theta_0,\thet
 
 As definition, $J(\theta_0, \theta_1)$ is a quadratic function.
 ![J()](https://www.mathworks.com/content/dam/mathworks/videos/s/surrogate-optimization-public.mp4/jcr:content/renditions/thumb-surrogate-optimization.png)
+
 So finding the minimize point, we're going through the derivative.
 [`In mathematics, the derivative is a way to show rate of change. For functions that act on the real numbers, it is the slope of the tangent line at a point on a graph.`](https://simple.wikipedia.org/wiki/Derivative_(mathematics)#:~:text=In%20mathematics%2C%20the%20derivative%20is,a%20point%20on%20a%20graph.)
 
