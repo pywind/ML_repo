@@ -3,31 +3,90 @@
 > Propose: Regression problem, predict real-value, ...
 
 `Note`:
-- m = number of training 
-- $x's$ = input features 
+
+- m = number of training
+- $x's$ = input features
 - $y's$ = output variables
-- $(x, y)$ one training example 
-- $x^{(i)}, y^{(i)}$ : $i^{th}$ example   
+- $(x, y)$ one training example
+- $x^{(i)}, y^{(i)}$ : $i^{th}$ example
+- $\alpha$ : learning rate
 
-1. One variable 
-> `hypothesis`: $h_{\theta}(x) = \theta_0 + \theta_1x$
+1. One variable
 
-Cost function: 
+`Hypothesis`: $h_{\theta}(x) = \theta_0 + \theta_1x$
+
+`Cost function`:
+
 $J(\theta_1, \theta_2) = \frac{1}{2m}\sum _{i=1}^m\:\left(h_\theta\left(x^{(i)}\right)- y^{(i)}\right)^2$
 
-Goal: minimze $J(\theta_1, \theta_2)$
+Goal: minimize $J(\theta_1, \theta_2)$
 
 2. Gradient descent
 
 Outline:
 
-* Start with some $\theta_0, \theta_1$ (eg. $\theta_0 = 0, \theta_1 = 0$)
-* Keep changing $\theta_0, \theta_1$ to reduce $J(\theta_0, \theta_1)$ to find the minimum 
+- Start with some $\theta_0, \theta_1$ (eg. $\theta_0 = 0, \theta_1 = 0$)
+- Keep changing $\theta_0, \theta_1$ to reduce $J(\theta_0, \theta_1)$ to find the minimum.
 
 Algorithm
 
-* Repeat until convergence 
+- Repeat until convergence:
 $\theta_j = \theta_j - \alpha\frac{\partial }{\partial \theta_j}J(\theta_0,\theta_1)$
+
+### Correct: Simultaneous update (1)
+
+- temp_0  $=\theta_0 - \alpha \frac{\partial}{\partial \theta_0}J(\theta_0, \theta_1)$
+- temp_1  $=\theta_1 - \alpha \frac{\partial}{\partial \theta_1}J(\theta_0, \theta_1)$
+- $\theta_0$ = temp_0
+- $\theta_1$ = temp_1
+
+As definition, $J(\theta_0, \theta_1)$ is a quadratic function.
+![J()](https://www.mathworks.com/content/dam/mathworks/videos/s/surrogate-optimization-public.mp4/jcr:content/renditions/thumb-surrogate-optimization.png)
+So finding the minimize point, we're going through the derivative.
+[`In mathematics, the derivative is a way to show rate of change. For functions that act on the real numbers, it is the slope of the tangent line at a point on a graph.`](https://simple.wikipedia.org/wiki/Derivative_(mathematics)#:~:text=In%20mathematics%2C%20the%20derivative%20is,a%20point%20on%20a%20graph.)
+
+### Derivative of $J(\theta_0, \theta_1)$
+
+We have: [`apply power rule`](https://en.wikipedia.org/wiki/Power_rule)
+
+* $\frac{\partial}{\partial \theta_0}J(\theta_0, \theta_1)=\frac{1}{2m}\sum_{i=1}^m\:\frac{\partial}{\partial \theta_0}\left(\theta_0 + \theta_1x_i-y_i\right)^2$ (2)
+
+  - $\frac{\partial}{\partial \theta_0}(\theta_0 + \theta_1x_i-y_i)^2=2(\theta_0 + \theta_1x_i-y_i)$
+  - (2) = $\frac{1}{m}\sum_{i=1}^m\:(\theta_0 + \theta_1x_i-y_i)$
+
+* similar to $\theta_0$, $\frac{\partial}{\partial \theta_1}J(\theta_0, \theta_1)=\frac{1}{m}\sum_{i=1}^m\:x_i(\theta_0 + \theta_1x_i-y_i)$
+
+### So, Gradient descent algorithm
+
+repeat until convergence (`or with amount iteration`) {
+
+- temp_0  $=\theta_0-\alpha \frac{1}{m}\sum_{i=1}^m\:(\theta_0 + \theta_1x_i-y_i)$
+- temp_1  $=\theta_1 - \alpha\frac{1}{m}\sum_{i=1}^m\:x_i(\theta_0 + \theta_1x_i-y_i)$
+- $\theta_0$ = temp_0
+- $\theta_1$ = temp_1
+
+}
+
+3. Source code with python
+
+Import library
+
+``` python
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+```
+
+Import data
+
+``` python
+dat = pd.read_csv('name_file')
+```
+
+Analysis and visualize before training
+
+
 
 ## Toán học
 
@@ -53,7 +112,7 @@ $J=\begin{pmatrix}\frac{\partial u}{\partial x}&\frac{\partial v}{\partial x}\\ 
 
 ## Đạo hàm theo hướng - Gradient
 
-Bổ đề: $\overrightarrow{l}$ là vector đơn vị $\Leftrightarrow$ hợp các vector tọa độ.
+Bổ đề: $\overrightarrow{l}$ là vector đơn vị.
 
 Nếu ta kết hợp các đạo hàm riêng lại thành một véc-tơ và tính đạo hàm teo véc-tơ đó thì ta sẽ thu được đạo hàm toàn phần. Hay nói cách khác là đạo hàm theo tất cả các biến hay đạo hàm theo véc-tơ hợp thành đó. Đạo hàm này được gọi là gradient của hàm theo véc-tơ tương ứng.
 
@@ -73,3 +132,4 @@ $J = \nabla f = \begin{bmatrix}
 \frac{\partial{f_1}}{\partial{x_1}} &\cdots & \frac{\partial{f_n}}{\partial{x_1}}\\ \vdots  & \ddots & \vdots \\ \frac{\partial{f_n}}{\partial{x_1}} &\cdots &\frac{\partial{f_n}}{\partial{x_n}} \end{pmatrix}$
 
  Ta có thể thấy rằng chiều của gradient sẽ cùng chiều với véc-tơ lấy đạo hàm. Hay nói một cách khác, hàm số tăng nhanh nhất theo hướng của gradient và giảm nhanh nhất khi ngược hướng với gradient của nó.
+
